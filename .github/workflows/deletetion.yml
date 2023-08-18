@@ -20,11 +20,19 @@ jobs:
         with:
             format: 'csv'
             
-      - run: |
+      - name: loop delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'ap-southeast-1'
+        run: |
           if [ ! -z "${{ steps.files.outputs.removed }}" ]
           then
           mapfile -d ',' -t removed_files < <(printf '%s,' '${{ steps.files.outputs.removed }}')
           for removed_file in "${removed_files[@]}"; do
+            echo aws s3 rm s3://${ env.AWS_S3_BUCKET }/${removed_file}
+            aws s3 rm s3://${ env.AWS_S3_BUCKET }/${removed_file}
             echo "${removed_file}"
           done
           fi
