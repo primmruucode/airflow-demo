@@ -31,8 +31,10 @@ jobs:
           then
           mapfile -d ',' -t removed_files < <(printf '%s,' '${{ steps.files.outputs.removed }}')
           for removed_file in "${removed_files[@]}"; do
-            echo aws s3 rm s3://$AWS_S3_BUCKET/$removed_file
-            aws s3 rm s3://$AWS_S3_BUCKET/$removed_file
+            substring_to_remove="dags/"
+            result_string="${removed_file//$substring_to_remove/}"
+            echo aws s3 rm s3://$AWS_S3_BUCKET/$result_string
+            aws s3 rm s3://$AWS_S3_BUCKET/test/$result_string
             echo "${removed_file}"
           done
           fi
