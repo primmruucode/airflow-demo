@@ -1,0 +1,38 @@
+name: Deletetion sep
+on:
+  push:
+    branches:
+      - DevOps
+    paths-ignore:
+      - '.github/workflows/**'
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  
+  get_change:
+      runs-on: ubuntu-latest
+      steps:
+      
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+            format: 'csv'
+            
+      - run: |
+          if [ ! -z "${{ steps.files.outputs.removed }}" ]
+          then
+          mapfile -d ',' -t removed_files < <(printf '%s,' '${{ steps.files.outputs.removed }}')
+          for removed_file in "${removed_files[@]}"; do
+            echo "${removed__file}"
+          done
+          fi
+          
+      - name: upload files
+        if:  "${{ steps.files.outputs.added_modified != '' }}" 
+        uses: ./.github/workflows/test_dags.yml   
+        
+
+        
+          
