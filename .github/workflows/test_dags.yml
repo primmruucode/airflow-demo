@@ -1,11 +1,13 @@
 name: Test DAGs
 
 on:
- pull_request: 
-  branches:
-   - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'dags/**'
    
- workflow_dispatch:
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
