@@ -2,9 +2,9 @@ name: Deletetion sep
 on:
   push:
     branches:
-      - DevOps
-    paths-ignore:
-      - '.github/workflows/**'
+      - main
+    paths:
+      - 'dags/**'
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
