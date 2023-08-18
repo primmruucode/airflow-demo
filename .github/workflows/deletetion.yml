@@ -25,7 +25,7 @@ jobs:
           then
           mapfile -d ',' -t removed_files < <(printf '%s,' '${{ steps.files.outputs.removed }}')
           for removed_file in "${removed_files[@]}"; do
-            echo "${removed__file}"
+            echo "${removed_file}"
           done
           fi
           
